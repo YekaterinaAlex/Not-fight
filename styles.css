@@ -1,0 +1,204 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+@import url('https://fonts.googleapis.com/css2?family=Borel&display=swap');
+
+body {
+  font-family: 'Borel', cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: black;
+}
+
+.container {
+  background-image: url(assets/disney.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+label {
+  display: block;
+  margin-bottom: 15px;
+}
+.registration_page_title {
+  margin-bottom: 50px;
+}
+.registration_page_input {
+  width: 315px;
+  display: block;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+input[name='charactername'] {
+  width: 100%;
+  font-size: 22px;
+  padding: 8px 12px;
+  border: 2px solid black;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+input[name='charactername']:focus {
+  border-color: blue;
+}
+.registration_btn {
+  font-size: 24px;
+  padding: 16px 22px;
+  border-radius: 8px;
+  background-color: plum;
+  cursor: pointer;
+}
+
+.header_home {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 4px solid white;
+}
+.container_home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  background: linear-gradient(120deg, pink, white, purple);
+  color: white;
+  font-size: 24px;
+}
+.header_nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.home_li_main,
+.home_li_profile,
+.home_li_settings {
+  width: 30px;
+  height: 30px;
+
+  cursor: pointer;
+}
+.header-btn {
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#content_mainPage {
+  height: calc(100vh - 60px);
+
+  margin-top: 60px;
+}
+.profile_page {
+  display: flex;
+  gap: 50px;
+}
+.profile_img {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  height: 300px;
+  width: 200px;
+  background-size: cover;
+}
+.profile_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+.overlay_avatar {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  opacity: 0;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+.profile_img:hover .overlay_avatar {
+  opacity: 0.6;
+}
+.avatar_item {
+  position: relative;
+  cursor: pointer;
+}
+.avatar_item img {
+  height: 300px;
+  width: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+.avatar_item:hover img {
+  transform: scale(1.1);
+  opacity: 0.6;
+}
+#change-photo-btn {
+  width: 30px;
+  height: 30px;
+  background-image: url(assets/pen-solid-full.svg);
+
+  border-radius: 50%;
+  cursor: pointer;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: lightblue;
+}
+.close_btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+}
+.avatars_list {
+  display: flex;
+
+  width: 1000px;
+  height: 400px;
+}
+.checked_btn {
+  display: none;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url(assets/check-solid-full.svg);
+  cursor: pointer;
+}
+.avatar_item:hover .checked_btn {
+  display: block;
+}
+.profile_name {
+  color: purple;
+}
+.profile_wins {
+  color: green;
+}
+.profile_loses {
+  color: red;
+}

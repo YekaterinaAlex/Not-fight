@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container_home">
+    <header class="header_home">
+      <div class="home_page">
+        <span>Main</span>
+      </div>
+      <nav class="header_nav">
+        <ul>
+          <li class="home_li_main"><button onclick="loadPage('main')" class="header-btn">
+              <img src="assets/house-regular-full.svg">
+            </button>
+          </li>
+          <li class="home_li_profile"><button onclick="loadPage('profile')" class="header-btn"><img
+                src="assets/user-regular-full.svg"></button></li>
+          <li class="home_li_settings"><button onclick="loadPage('settings')" class="header-btn"><img
+                src="assets/gear-solid-full.svg">
+            </button></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="content_mainPage"></div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
