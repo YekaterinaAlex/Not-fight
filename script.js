@@ -1,3 +1,13 @@
+let wins = Number(localStorage.getItem('wins')) || 0;
+let losses = Number(localStorage.getItem('losses')) || 0;
+function updateScoreboard() {
+  const winsEl = document.getElementById('winsCount');
+  const lossesEl = document.getElementById('lossesCount');
+  if (winsEl && lossesEl) {
+    winsEl.textContent = wins;
+    lossesEl.textContent = losses;
+  }
+}
 function saveName() {
   const charName = document.querySelector('.charactername-input').value.trim();
   if (!charName) {
@@ -74,7 +84,7 @@ function loadPage(page) {
     <img src="${selectedAvatar}"></div>
     <div class="health_bar">
     <div id="playerHealthBar" class="health_fill"></div>
-    <span id="healthText" class="health_text">150 / 150</span>
+    <span id="playerHealthText" class="health_text">150 / 150</span>
     </div>
     </div>
     <div class="attack_panel">
@@ -106,8 +116,8 @@ function loadPage(page) {
         <img src="${randomEnemy}">
       </div>
        <div class="health_bar">
-        <div id="playerHealthBar" class="health_fill"></div>
-        <span id="healthText" class="health_text">150 / 150</span>
+        <div id="enemyHealthBar" class="health_fill"></div>
+        <span id="enemyHealthText" class="health_text">150 / 150</span>
       </div>
     </div>
     </div>
@@ -122,6 +132,9 @@ function loadPage(page) {
     `;
 
     const zones = ['head', 'neck', 'body', 'belly', 'legs'];
+    let playerHealth = 150;
+    let enemyHealth = 150;
+    const maxHealth = 150;
 
     function logAttack(
       attackerName,
@@ -133,14 +146,48 @@ function loadPage(page) {
       const isBlocked = defenderDefendedZones.includes(attackZone);
 
       const message = isBlocked
-        ? `${attackerName} attacked ${defenderName} on ${attackZone} but ${defenderName} protected it`
-        : `${attackerName} attacked ${defenderName} on ${attackZone} and it was successful!`;
-      const logEntry = document.createElement('p');
-      logEntry.classList.add('log_p');
-      logEntry.textContent = message;
-      logsContainer.appendChild(logEntry);
+        ? `<p class="fight_message"><span class="attacker">${attackerName}</span> attacked <span class="defender">${defenderName}</span> on <span class="attack_zone">${attackZone}</span> but  <span class="defender">${defenderName}</span> protected it!</p>`
+        : `<p class="fight_message"><span class="attacker">${attackerName}</span> attacked <span class="defender">${defenderName}</span> on <span class="attack_zone">${attackZone}</span> and it was successful!</p>`;
+      logsContainer.innerHTML += message;
       logsContainer.scrollTop = logsContainer.scrollHeight;
+      if (!isBlocked) {
+        if (attackerName === 'You') {
+          enemyHealth = Math.max(0, enemyHealth - 20);
+          updateHealth(
+            'enemyHealthBar',
+            'enemyHealthText',
+            enemyHealth,
+            maxHealth
+          );
+        } else {
+          playerHealth = Math.max(0, playerHealth - 20);
+          updateHealth(
+            'playerHealthBar',
+            'playerHealthText',
+            playerHealth,
+            maxHealth
+          );
+        }
+      }
+      checkGameOver();
     }
+
+    function checkGameOver() {
+      if (enemyHealth <= 0) {
+        wins++;
+        localStorage.setItem('wins', wins);
+        updateScoreboard();
+        alert('🎉 You won!');
+        loadPage('profile');
+      } else if (playerHealth <= 0) {
+        losses++;
+        localStorage.setItem('losses', losses);
+        updateScoreboard();
+        alert('💀 You lost!');
+        loadPage('profile');
+      }
+    }
+
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('attack_btn')) {
         // --- PLAYER attack ---
@@ -168,11 +215,22 @@ function loadPage(page) {
         logAttack('Enemy', 'You', enemyAttack, defenseZones);
       }
     });
-    /**function updateHealth(current, max) {
-      const bar = document.getElementById('playerHealthBar');
-      const textHealth = document.getElementById('healthText');
-      const percent = (current / max) * 100;
-    }*/
+
+    function updateHealth(barId, textId, currentHealth, maxHealth) {
+      const bar = document.getElementById(barId);
+      const text = document.getElementById(textId);
+      const percent = (currentHealth / maxHealth) * 100;
+      bar.style.width = percent + '%';
+      text.textContent = `${currentHealth} / ${maxHealth}`;
+
+      if (percent > 60) {
+        bar.style.background = 'green';
+      } else if (percent > 30) {
+        bar.style.background = 'orange';
+      } else {
+        bar.style.background = 'red';
+      }
+    }
 
     const mainName = document.getElementById('mainProfileName');
     mainName.textContent = localStorage.getItem('username');
@@ -224,8 +282,8 @@ function loadPage(page) {
         </div>
         </div>
         <span class="profile_name" id="profileName"></span>
-        <p class="profile_wins">Wins: <span class="profile_wins_num"></span></p>
-        <p class="profile_loses">Loses: <span class="profile_loses_num"></span></p>
+        <p class="profile_wins">Wins: <span class="profile_wins_num" id="winsCount">0</span></p>
+        <p class="profile_loses">Loses: <span class="profile_loses_num" id="lossesCount">0</span></p>
       </div>
     `;
     const modal = document.getElementById('modal');
@@ -262,5 +320,6 @@ function loadPage(page) {
     } else {
       document.getElementById('profileName').textContent = `Hero!`;
     }
+    updateScoreboard();
   }
 }
