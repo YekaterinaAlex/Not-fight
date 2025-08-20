@@ -297,3 +297,17 @@ input[name='charactername']:focus {
   overflow-y: auto;
   border: 1px solid gray;
 }
+.attacker {
+  color: red;
+  font-weight: bold;
+}
+.defender {
+  color: green;
+  font-weight: bold;
+}
+.fight_message {
+  color: purple;
+}
+.attack_zone {
+  color: blue;
+}
